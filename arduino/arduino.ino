@@ -1,7 +1,11 @@
+#include <DHT11.h>
+
 #define ECHO_FRONT 6
 #define TRIG_FRONT 7
 #define ECHO_BACK 8
 #define TRIG_BACK 9
+#define DHT 4
+DHT11 dht11(DHT)
 
 void setup() {
   Serial.begin(9600); 
@@ -16,6 +20,18 @@ void setup() {
 void loop()
 
 {
+  int i;
+  float humi, temp;
+  if((i = dht11.read(humi,temp)) == 0) {
+    Serial.print("humidity");
+    Serial.print(humi);
+    Serial.print("temperature");
+    Serial.print(temp);
+  }
+  else{
+    Serial.print("Error:");
+    Serial.print(i);
+  }
   long duration_front, distance_front, duration_back, distance_back;
 
   digitalWrite(TRIG_FRONT, LOW);
@@ -38,6 +54,6 @@ void loop()
   Serial.print(distance_back);
   Serial.println(" Cm");
 
-  delay(100);
+  delay(500);
 
 }
